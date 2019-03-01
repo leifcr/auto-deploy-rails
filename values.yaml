@@ -15,6 +15,9 @@ application:
   initializeCommand:
   secretName:
   secretChecksum:
+gitlab:
+  app:
+  env:
 service:
   enabled: true
   name: web
