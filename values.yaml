@@ -24,6 +24,9 @@ service:
   commonName:
   externalPort: 5000
   internalPort: 5000
+ingress:
+  tls:
+    secretName: ""
 livenessProbe:
   path: "/"
   initialDelaySeconds: 15

@@ -23,7 +23,7 @@ spec:
     - {{ $host }}
 {{- end -}}
 {{- end }}
-    secretName: {{ template "fullname" . }}-tls
+    secretName: {{ .Values.ingress.tls.secretName | default (printf "%s-tls" (include "fullname" .)) }}
   rules:
   - host: {{ template "hostname" .Values.service.url }}
     http:
