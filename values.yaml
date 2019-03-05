@@ -26,6 +26,7 @@ service:
   internalPort: 5000
 ingress:
   tls:
+    enabled: true
     secretName: ""
 livenessProbe:
   path: "/"
