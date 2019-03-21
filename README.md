@@ -13,6 +13,7 @@
 | image.tag                     |             | `stable`                           |
 | image.pullPolicy              |             | `Always`                           |
 | image.secrets                 |             | `[name: gitlab-registry]`          |
+| podAnnotations                | Pod annotations | `{}`                           |
 | application.track             |             | `stable`                           |
 | application.tier              |             | `web`                              |
 | application.migrateCommand    | If present, this variable will run as a shell command within an application Container as a Helm pre-upgrade Hook. Intended to run migration commands. | `nil` |
@@ -22,6 +23,7 @@
 | gitlab.env                    | GitLab environment. | `nil` |
 | gitlab.app                    | GitLab project slug. | `nil` |
 | service.enabled               |             | `true`                             |
+| service.annotations           | Service annotations | `{}`                       |
 | service.name                  |             | `web`                              |
 | service.type                  |             | `ClusterIP`                        |
 | service.url                   |             | `http://my.host.com/`              |
@@ -31,6 +33,7 @@
 | service.internalPort          |             | `5000`                             |
 | ingress.tls.enabled           | If true, enables SSL | `true`                    |
 | ingress.tls.secretName        | Name of the secret used to terminate SSL traffic | `""` |
+| ingress.annotations           | Ingress annotations | `{kubernetes.io/tls-acme: "true", kubernetes.io/ingress.class: "nginx"}` |
 | livenessProbe.path            | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |
 | livenessProbe.initialDelaySeconds | # of seconds after the container has started before liveness probes are initiated. | `15`                               |
 | livenessProbe.timeoutSeconds  | # of seconds after which the liveness probe times out. | `15`                               |
