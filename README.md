@@ -35,9 +35,11 @@
 | ingress.tls.secretName        | Name of the secret used to terminate SSL traffic | `""` |
 | ingress.annotations           | Ingress annotations | `{kubernetes.io/tls-acme: "true", kubernetes.io/ingress.class: "nginx"}` |
 | livenessProbe.path            | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |
+| livenessProbe.scheme          | Scheme to access the HTTP server (HTTP or HTTPS). | `HTTP`                                |
 | livenessProbe.initialDelaySeconds | # of seconds after the container has started before liveness probes are initiated. | `15`                               |
 | livenessProbe.timeoutSeconds  | # of seconds after which the liveness probe times out. | `15`                               |
 | readinessProbe.path           | Path to access on the HTTP server on periodic probe of container readiness. | `/`                                |
+| readinessProbe.scheme         | Scheme to access the HTTP server (HTTP or HTTPS). | `HTTP`                                |
 | readinessProbe.initialDelaySeconds | # of seconds after the container has started before readiness probes are initiated. | `5`                                |
 | readinessProbe.timeoutSeconds | # of seconds after which the readiness probe times out. | `3`                                |
 | postgresql.enabled            |             | `true`                             |
