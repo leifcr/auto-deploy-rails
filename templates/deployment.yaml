@@ -36,6 +36,7 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        args: ["{{ .Values.service.args }}"]
         {{- if .Values.application.secretName }}
         envFrom:
         - secretRef:

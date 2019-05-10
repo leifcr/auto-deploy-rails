@@ -80,6 +80,7 @@ Copy [```values.yaml```](https://gitlab.com/leifcr/auto-deploy-rails/blob/master
 | gitlab.env                    | GitLab environment. | `nil` |
 | gitlab.app                    | GitLab project slug. | `nil` |
 | service.enabled               |             | `true`                             |
+| service.args                  | Change the service arguments on the fly if needed | `` |
 | service.annotations           | Service annotations | `{}`                       |
 | service.name                  |             | `web`                              |
 | service.type                  |             | `ClusterIP`                        |
