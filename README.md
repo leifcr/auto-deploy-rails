@@ -90,7 +90,7 @@ Copy [```values.yaml```](https://gitlab.com/leifcr/auto-deploy-rails/blob/master
 | service.internalPort          |             | `3000`                             |
 | ingress.tls.enabled           | If true, enables SSL | `true`                    |
 | ingress.tls.secretName        | Name of the secret used to terminate SSL traffic | `""` |
-| ingress.annotations           | Ingress annotations | `{kubernetes.io/tls-acme: "true", kubernetes.io/ingress.class: "nginx"}` |
+| ingress.annotations           | Ingress annotations | `{}` |
 | livenessProbe.path            | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |
 | livenessProbe.scheme          | Scheme to access the HTTP server (HTTP or HTTPS). | `HTTP`                                |
 | livenessProbe.initialDelaySeconds | # of seconds after the container has started before liveness probes are initiated. | `15`                               |
