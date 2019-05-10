@@ -5,6 +5,7 @@ metadata:
   name: {{ template "trackableappname" . }}-worker
   labels:
     app: {{ template "appname" . }}-worker
+    part: 'backend-worker'
     track: "{{ .Values.application.track }}"
     tier: "{{ .Values.application.tier }}"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
@@ -18,6 +19,7 @@ spec:
         checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
       labels:
         app: {{ template "appname" . }}
+        part: 'backend-worker'
         track: "{{ .Values.application.track }}"
         tier: "{{ .Values.application.tier }}"
         release: {{ .Release.Name }}
