@@ -117,16 +117,15 @@ Copy [```values.yaml```](https://gitlab.com/leifcr/auto-deploy-rails/blob/master
 | podDisruptionBudget.maxUnavailable |             | `1`                            |
 | podDisruptionBudget.minAvailable | If present, this variable will configure minAvailable in the PodDisruptionBudget. :warning: if you have `replicaCount: 1` and `podDisruptionBudget.minAvailable: 1` `kubectl drain` will be blocked.              | `nil`                            |
 
-NOTE: when providing ingress annotations as variable, the following list format must be used:
+NOTE: when providing ingress annotations, these must be givens as multiple --set commands OR set in a file
+
+Example via set:
 ```
-MY_INGRESS_ANNOTATION='{traefik.ingress.kubernetes.io/redirect-entry-point=\"https\",traefik.ingress.kubernetes.io/redirect-permanent=\"true\"}'
+helm install . --dry-run --debug --set ingress.annotations."traefik\.ingress\.kubernetes\.io/redirect-entry-point"=\"https\" --set ingress.annotations."traefik\.ingress\.kubernetes\.io/redirect-permanent"=\"true\"
 ```
 
-To verify your variable, download the chart to a local folder run, change to the folder and run:
-
-```
-helm template . --set ingress.annotations=$MY_INGRESS_ANNOTATION
-```
+Optional, set it through a settings file and use -f. (See ingress_example_settings.yaml for example)
+helm install . --dry-run --debug -f ingress_example_settings.yaml
 
 
 Static site generated with Jekyll. See chart_site folder for details

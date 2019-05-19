@@ -1,0 +1,5 @@
+ingress:
+  annotations:
+    "traefik.ingress.kubernetes.io/redirect-entry-point": \"https\"
+    "traefik.ingress.kubernetes.io/redirect-permanent": \"true\"
+
