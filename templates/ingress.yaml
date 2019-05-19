@@ -9,10 +9,8 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- if .Values.ingress.annotations }}
- annotations:
-  {{- range $key, $value := .Values.ingress.annotations }}
-    {{ $key }}: {{ $value | quote }}
-  {{- end }}
+  annotations:
+{{ toYaml .Values.ingress.annotations | indent 4 }}
 {{- end }}
 spec:
 {{- if .Values.ingress.tls.enabled }}
