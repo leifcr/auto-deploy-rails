@@ -30,7 +30,7 @@ spec:
       - name: {{ .Chart.Name }}-worker
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        args: ["{{ .Values.worker.args }}"]
+        args: ["{{ .Values.worker.args | default "bundle exec sidekiq" }}"]
         {{- if .Values.worker.sidekiq_alive.enabled }}
         livenessProbe:
           httpGet:
