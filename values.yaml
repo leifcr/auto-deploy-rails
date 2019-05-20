@@ -36,12 +36,13 @@ ingress:
   annotations: {}
 livenessProbe:
   path: "/"
-  initialDelaySeconds: 15
+  initialDelaySeconds: 20
   timeoutSeconds: 15
   scheme: "HTTP"
+  periodSeconds: 30
 readinessProbe:
   path: "/"
-  initialDelaySeconds: 5
+  initialDelaySeconds: 10
   timeoutSeconds: 3
   scheme: "HTTP"
 worker:
@@ -52,12 +53,13 @@ worker:
     enabled: true
     livenessProbe:
       path: "/"
-      initialDelaySeconds: 120 # App specific, tune after deployment
+      initialDelaySeconds: 60 # App specific, tune after deployment
       timeoutSeconds: 15
       port: 7433
+      periodSeconds: 30
     readinessProbe:
       path: "/"
-      initialDelaySeconds: 120 # App specific, tune after deployment
+      initialDelaySeconds: 30 # App specific, tune after deployment
       timeoutSeconds: 5 # Can be less
       port: 7433
 

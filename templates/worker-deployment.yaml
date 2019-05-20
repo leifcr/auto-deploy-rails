@@ -38,6 +38,7 @@ spec:
             port: {{ .Values.worker.sidekiq_alive.livenessProbe.port }}
           initialDelaySeconds: {{ .Values.worker.sidekiq_alive.livenessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.worker.sidekiq_alive.livenessProbe.timeoutSeconds }}
+          periodSeconds: {{ .Values.worker.sidekiq_alive.livenessProbe.periodSeconds }}
         readinessProbe:
           httpGet:
             path: {{ .Values.worker.sidekiq_alive.readinessProbe.path }}
@@ -58,18 +59,6 @@ spec:
         env:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
-        # livenessProbe:
-        #   httpGet:
-        #     path: {{ .Values.livenessProbe.path }}
-        #     port: {{ .Values.service.internalPort }}
-        #   initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-        #   timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-        # readinessProbe:
-        #   httpGet:
-        #     path: {{ .Values.readinessProbe.path }}
-        #     port: {{ .Values.service.internalPort }}
-        #   initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-        #   timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
 {{- end -}}
