@@ -44,9 +44,11 @@ spec:
         - secretRef:
             name: {{ .Values.application.secretName }}
         {{- end }}
+        {{- if .Values.application.database_url }}
         env:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
+        {{- end }}
         ports:
         - name: "{{ .Values.service.name }}"
           containerPort: {{ .Values.service.internalPort }}
