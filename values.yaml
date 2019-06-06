@@ -20,6 +20,7 @@ gitlab:
   env:
 service:
   replicaCount: 1
+  revisionHistoryLimit: 10
   enabled: true
   annotations: {}
   name: web
