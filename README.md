@@ -65,8 +65,8 @@ Copy [```values.yaml```](https://gitlab.com/leifcr/auto-deploy-rails/blob/master
 
 | Parameter                     | Description | Default                            |
 | ---                           | ---         | ---                                |
-| replicaCount                  |             | `1`                                |
-| revisionHistoryLimit          |             | `10`                                |
+| service.replicaCount          |             | `1`                                |
+| service.revisionHistoryLimit  |             | `10`                                |
 | image.repository              |             | `gitlab.example.com/group/project` |
 | image.tag                     |             | `stable`                           |
 | image.pullPolicy              |             | `Always`                           |

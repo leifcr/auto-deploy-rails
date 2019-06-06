@@ -50,6 +50,7 @@ worker:
   enabled: true
   args: 'bundle exec sidekiq'
   replicaCount: 1
+  revisionHistoryLimit: 10
   sidekiq_alive:
     enabled: true
     livenessProbe:

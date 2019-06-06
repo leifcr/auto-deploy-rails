@@ -15,8 +15,8 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount }}
-  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 10 }}
+  replicas: {{ .Values.service.replicaCount }}
+  revisionHistoryLimit: {{ .Values.service.revisionHistoryLimit | default 10 }}
   template:
     metadata:
       annotations:
