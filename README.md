@@ -10,6 +10,10 @@ Delayed job should be a matter of adding the proper commands
 
 - Helm `2.9.0` and above is required in order support `"helm.sh/hook-delete-policy": before-hook-creation` for migrations
 
+## Note on securityContext
+
+This is set to run as user 1001, and group 1001, so ensure that your container has user 1001 and 1001 created. See https://github.com/leifcr/rails5-kubernetes for example
+
 ## Usage with helm
 
 ### With gitlab
@@ -63,49 +67,55 @@ Copy [```values.yaml```](https://gitlab.com/leifcr/auto-deploy-rails/blob/master
 
 ## Configuration
 
-| Parameter                     | Description | Default                            |
-| ---                           | ---         | ---                                |
-| service.replicaCount          |             | `1`                                |
-| service.revisionHistoryLimit  |             | `10`                                |
-| image.repository              |             | `gitlab.example.com/group/project` |
-| image.tag                     |             | `stable`                           |
-| image.pullPolicy              |             | `Always`                           |
-| image.secrets                 |             | `[name: gitlab-registry]`          |
-| podAnnotations                | Pod annotations | `{}`                           |
-| application.track             |             | `stable`                           |
-| application.tier              |             | `web`                              |
-| application.migrateCommand    | If present, this variable will run as a shell command within an application Container as a Helm pre-upgrade Hook. Intended to run migration commands. | `nil` |
-| application.initializeCommand | If present, this variable will run as shall command within an application Container as a Helm post-install Hook. Intended to run database initialization commands. | `nil` |
-| application.secretName        | Pass in the name of a Secret which the deployment will [load all key-value pairs from the Secret as environment variables](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables) in the application container. | `nil` |
-| application.secretChecksum    | Pass in the checksum of the secrets referenced by `application.secretName`. | `nil` |
-| gitlab.env                    | GitLab environment. | `nil` |
-| gitlab.app                    | GitLab project slug. | `nil` |
-| service.enabled               |             | `true`                             |
-| service.args                  | Change the service arguments on the fly if needed | `` |
-| service.annotations           | Service annotations | `{}`                       |
-| service.name                  |             | `web`                              |
-| service.type                  |             | `ClusterIP`                        |
-| service.url                   |             | `http://my.host.com/`              |
-| service.additionalHosts       | If present, this list will add additional hostnames to the server configuration. | `nil` |
-Alternative Names (SANs) | `nil` |
-| service.externalPort          |             | `3000`                             |
-| service.internalPort          |             | `3000`                             |
-| ingress.tls.enabled           | If true, enables SSL | `true`                    |
-| ingress.tls.secretName        | Name of the secret used to terminate SSL traffic | `""` |
-| ingress.annotations           | Ingress annotations | `{}` |
-| livenessProbe.path            | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |
-| livenessProbe.scheme          | Scheme to access the HTTP server (HTTP or HTTPS). | `HTTP`                                |
-| livenessProbe.initialDelaySeconds | # of seconds after the container has started before liveness probes are initiated. | `15`                               |
-| livenessProbe.timeoutSeconds  | # of seconds after which the liveness probe times out. | `15`                               |
-| readinessProbe.path           | Path to access on the HTTP server on periodic probe of container readiness. | `/`                                |
-| readinessProbe.scheme         | Scheme to access the HTTP server (HTTP or HTTPS). | `HTTP`                                |
+| Parameter                          | Description | Default                            |
+| ---                                | ---         | ---                                |
+| service.replicaCount               |             | `1`                                |
+| service.revisionHistoryLimit       |             | `10`                                |
+| service.securityContext.enabled    |          | `true` |
+| service.securityContext.fsGroup    |          | `1001` |
+| service.securityContext.runAsUser  |          | `1001` |
+| image.repository                   |             | `gitlab.example.com/group/project` |
+| image.tag                          |             | `stable`                           |
+| image.pullPolicy                   |             | `Always`                           |
+| image.secrets                      |             | `[name: gitlab-registry]`          |
+| podAnnotations                     | Pod annotations | `{}`                           |
+| application.track                  |             | `stable`                           |
+| application.tier                   |             | `web`                              |
+| application.migrateCommand         | If present, this variable will run as a shell command within an application Container as a Helm pre-upgrade Hook. Intended to run migration commands. | `nil` |
+| application.initializeCommand      | If present, this variable will run as shall command within an application Container as a Helm post-install Hook. Intended to run database initialization commands. | `nil` |
+| application.secretName             | Pass in the name of a Secret which the deployment will [load all key-value pairs from the Secret as environment variables](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables) in the application container. | `nil` |
+| application.secretChecksum         | Pass in the checksum of the secrets referenced by `application.secretName`. | `nil` |
+| gitlab.env                         | GitLab environment. | `nil` |
+| gitlab.app                         | GitLab project slug. | `nil` |
+| service.enabled                    |             | `true`                             |
+| service.args                       | Change the service arguments on the fly if needed | `` |
+| service.annotations                | Service annotations | `{}`                       |
+| service.name                       |             | `web`                              |
+| service.type                       |             | `ClusterIP`                        |
+| service.url                        |             | `http://my.host.com/`              |
+| service.additionalHosts            | If present, this list will add additional hostnames to the server configuration. | `nil` |
+Alternative Names (SANs) | `nil`     |
+| service.externalPort               |             | `3000`                             |
+| service.internalPort               |             | `3000`                             |
+| ingress.tls.enabled                | If true, enables SSL | `true`                    |
+| ingress.tls.secretName             | Name of the secret used to terminate SSL traffic | `""` |
+| ingress.annotations                | Ingress annotations | `{}` |
+| livenessProbe.path                 | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |
+| livenessProbe.scheme               | Scheme to access the HTTP server (HTTP or HTTPS). | `HTTP`                                |
+| livenessProbe.initialDelaySeconds  | # of seconds after the container has started before liveness probes are initiated. | `15`                               |
+| livenessProbe.timeoutSeconds       | # of seconds after which the liveness probe times out. | `15`                               |
+| readinessProbe.path                | Path to access on the HTTP server on periodic probe of container readiness. | `/`                                |
+| readinessProbe.scheme              | Scheme to access the HTTP server (HTTP or HTTPS). | `HTTP`                                |
 | readinessProbe.initialDelaySeconds | # of seconds after the container has started before readiness probes are initiated. | `5`                                |
-| readinessProbe.timeoutSeconds | # of seconds after which the readiness probe times out. | `3`                                |
-| worker.enabled                |             | `true` |
-| worker.args                   |             | `bundle exec sidekiq` |
-| worker.replicaCount           |             | `1`  |
-| worker.revisionHistoryLimit   |             | `10`  |
-| worker.sidekiq_alive.enabled  |             | `true` |
+| readinessProbe.timeoutSeconds      | # of seconds after which the readiness probe times out. | `3`                                |
+| worker.enabled                     |             | `true` |
+| worker.securityContext.enabled     |          | `true` |
+| worker.securityContext.fsGroup     |          | `1001` |
+| worker.securityContext.runAsUser   |          | `1001` |
+| worker.args                        |             | `bundle exec sidekiq` |
+| worker.replicaCount                |             | `1`  |
+| worker.revisionHistoryLimit        |             | `10`  |
+| worker.sidekiq_alive.enabled       |             | `true` |
 | worker.sidekiq_alive.livenessProbe.path            | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |
 | worker.sidekiq_alive.livenessProbe.initialDelaySeconds | # of seconds after the container has started before liveness probes are initiated. | `15`                               |
 | worker.sidekiq_alive.livenessProbe.timeoutSeconds  | # of seconds after which the liveness probe times out. | `15`                               |
@@ -114,10 +124,10 @@ Alternative Names (SANs) | `nil` |
 | worker.sidekiq_alive.readinessProbe.initialDelaySeconds | # of seconds after the container has started before readiness probes are initiated. | `5`   |
 | worker.sidekiq_alive.readinessProbe.port  | Port for sidekiq_alive | `7433`                               |
 | worker.sidekiq_alive.readinessProbe.timeoutSeconds | # of seconds after which the readiness probe times out. | `3`                                |
-| postgresql.enabled            |             | `false`                            |
-| podDisruptionBudget.enabled   |             | `false`                            |
+| postgresql.enabled                 |             | `false`                            |
+| podDisruptionBudget.enabled        |             | `false`                            |
 | podDisruptionBudget.maxUnavailable |             | `1`                            |
-| podDisruptionBudget.minAvailable | If present, this variable will configure minAvailable in the PodDisruptionBudget. :warning: if you have `replicaCount: 1` and `podDisruptionBudget.minAvailable: 1` `kubectl drain` will be blocked.              | `nil`                            |
+| podDisruptionBudget.minAvailable   | If present, this variable will configure minAvailable in the PodDisruptionBudget. :warning: if you have `replicaCount: 1` and `podDisruptionBudget.minAvailable: 1` `kubectl drain` will be blocked.              | `nil`                            |
 
 NOTE: when providing ingress annotations, these must be givens as multiple --set commands OR set in a file
 
