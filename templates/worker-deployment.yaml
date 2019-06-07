@@ -25,6 +25,11 @@ spec:
         tier: "{{ .Values.application.tier }}"
         release: {{ .Release.Name }}
     spec:
+      {{- if .Values.worker.securityContext.enabled }}
+      securityContext:
+        fsGroup: {{ .Values.worker.securityContext.fsGroup }}
+        runAsUser: {{ .Values.worker.securityContext.runAsUser }}
+      {{- end }}
       imagePullSecrets:
 {{ toYaml .Values.image.secrets | indent 10 }}
       containers:

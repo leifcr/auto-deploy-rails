@@ -30,6 +30,10 @@ service:
   commonName:
   externalPort: 3000
   internalPort: 3000
+  securityContext:
+    enabled: true
+    fsGroup: 1001
+    runAsUser: 1001
 ingress:
   tls:
     enabled: true
@@ -51,6 +55,10 @@ worker:
   args: 'bundle exec sidekiq'
   replicaCount: 1
   revisionHistoryLimit: 10
+  securityContext:
+    enabled: true
+    fsGroup: 1001
+    runAsUser: 1001
   sidekiq_alive:
     enabled: true
     livenessProbe:
@@ -64,6 +72,7 @@ worker:
       initialDelaySeconds: 30 # App specific, tune after deployment
       timeoutSeconds: 5 # Can be less
       port: 7433
+
 
 postgresql:
   enabled: false
