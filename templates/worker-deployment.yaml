@@ -1,4 +1,5 @@
 {{- if not .Values.application.initializeCommand -}}
+{{- if .Values.worker.enabled -}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -74,4 +75,5 @@ spec:
         {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
+{{- end -}}
 {{- end -}}
