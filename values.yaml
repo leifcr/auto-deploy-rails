@@ -15,6 +15,11 @@ application:
   initializeCommand:
   secretName:
   secretChecksum:
+hpa:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
 gitlab:
   app:
   env:
@@ -80,7 +85,7 @@ resources:
 #  limits:
 #    cpu: 100m
 #    memory: 128Mi
-#  requests:
+  requests:
 #    cpu: 100m
 #    memory: 128Mi
 

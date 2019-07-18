@@ -1,10 +1,12 @@
 # Auto-deploy rails chart
 
-Initially forked from GitLab's Auto-deploy Helm Chart, but due to need workers, this fork was created.
+Initially forked from GitLab's Auto-deploy Helm Chart (https://gitlab.com/gitlab-org/charts/auto-deploy-app), but due to need workers, this fork was created.
 
 Initially sidekiq is implemented.
 
 Delayed job should be a matter of adding the proper commands
+
+Note: Worker has been added initially to gitlabs own chart: See this commit (https://gitlab.com/gitlab-org/charts/auto-deploy-app/commit/a76e282d6cb72b8f52315efc3fd933beb5aa2789)
 
 ## Requirements
 
@@ -85,6 +87,9 @@ Copy [```values.yaml```](https://gitlab.com/leifcr/auto-deploy-rails/blob/master
 | application.initializeCommand      | If present, this variable will run as shall command within an application Container as a Helm post-install Hook. Intended to run database initialization commands. | `nil` |
 | application.secretName             | Pass in the name of a Secret which the deployment will [load all key-value pairs from the Secret as environment variables](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables) in the application container. | `nil` |
 | application.secretChecksum         | Pass in the checksum of the secrets referenced by `application.secretName`. | `nil` |
+| hpa.enabled                        | If true, enables horizontal pod autoscaler. A resource request is also required to be set, such as `resources.requests.cpu: 200m`.| `false` |
+| hpa.minReplicas                    |             | `1`                                |
+| hpa.maxReplicas                    |             | `5`                                |
 | gitlab.env                         | GitLab environment. | `nil` |
 | gitlab.app                         | GitLab project slug. | `nil` |
 | service.enabled                    |             | `true`                             |
