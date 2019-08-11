@@ -23,6 +23,7 @@ hpa:
 gitlab:
   app:
   env:
+  envName:
 service:
   replicaCount: 1
   revisionHistoryLimit: 10

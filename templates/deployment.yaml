@@ -60,6 +60,8 @@ spec:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
         {{- end }}
+        - name: GITLAB_ENVIRONMENT_NAME
+          value: {{ .Values.gitlab.envName }}
         ports:
         - name: "{{ .Values.service.name }}"
           containerPort: {{ .Values.service.internalPort }}
