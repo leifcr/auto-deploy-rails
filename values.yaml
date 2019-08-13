@@ -24,6 +24,7 @@ gitlab:
   app:
   env:
   envName:
+  envURL:
 service:
   replicaCount: 1
   revisionHistoryLimit: 10

@@ -133,7 +133,8 @@ Alternative Names (SANs) | `nil`     |
 | hpa.targetCPUUtilizationPercentage | Percentage threshold when HPA begins scaling out pods | `80` |
 | gitlab.app                    | GitLab project slug. | `nil` |
 | gitlab.env                    | GitLab environment slug. | `nil` |
-| gitlab.envName                    | GitLab environment name. | `nil` |
+| gitlab.envName                | GitLab environment name. | `nil` |
+| gitlab.envURL                 | GitLab environment URL.  | `nil` |
 | service.enabled               |             | `true`                             |
 | service.annotations           | Service annotations | `{}`                       |
 | service.name                  |             | `web`                              |
