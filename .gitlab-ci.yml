@@ -5,7 +5,7 @@ stages:
   - release
 
 lint:
-  image: registry.gitlab.com/charts/alpine-helm
+  image: "registry.gitlab.com/gitlab-org/gitlab-build-images:alpine-helm"
   stage: test
   script:
     - helm lint .

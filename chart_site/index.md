@@ -5,7 +5,7 @@
 layout: home
 ---
 This helm chart is written to deploy rails apps using Helm.
-<br>It's a fork of the [AutoDevops chart from gitlab](https://gitlab.com/charts/auto-deploy-app)
+<br>It's a fork of the [AutoDevops chart from gitlab](https://gitlab.com/gitlab-org/charts/auto-deploy-app)
 <br>
 <br>
 
@@ -13,7 +13,7 @@ This helm chart is written to deploy rails apps using Helm.
 
 * Pod for main application
 * Pod for worker
-* Postgres database can be provisioned if needed.
+* Postgres database can be provisioned if needed. (But not recommended, as you should manage data outside of your app deployment.)
 <br>
 <br>
 
