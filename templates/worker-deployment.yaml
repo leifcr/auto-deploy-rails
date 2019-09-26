@@ -68,13 +68,12 @@ spec:
         - secretRef:
             name: {{ .Values.application.secretName }}
         {{- end }}
-        {{- if .Values.application.database_host }}
         env:
+        {{- if .Values.application.database_host }}
         - name: DATABASE_HOST
           value: {{ .Values.application.database_host | quote }}
         {{- end }}
         {{- if .Values.application.database_url }}
-        env:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
         {{- end }}
