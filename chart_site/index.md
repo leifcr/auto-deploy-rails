@@ -28,7 +28,7 @@ See [readme](readme.html)
 
 Version: {{entry.version}}
 
-Download package: [{{entry.urls[0]}}]()
+Download package: [{{entry.urls[0]}}]({{entry.urls[0]}})
 
 Created: {{entry.created | date_to_long_string}} {{entry.created | date: "%H:%M" }}
 
