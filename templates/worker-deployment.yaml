@@ -1,6 +1,6 @@
 {{- if not .Values.application.initializeCommand -}}
 {{- if .Values.worker.enabled -}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "trackableappname" . }}-worker
