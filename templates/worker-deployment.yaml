@@ -82,6 +82,6 @@ spec:
         - name: GITLAB_ENVIRONMENT_URL
           value: {{ .Values.gitlab.envURL }}
         resources:
-{{ toYaml .Values.resources | indent 12 }}
+{{ toYaml .Values.worker.resources | indent 12 }}
 {{- end -}}
 {{- end -}}

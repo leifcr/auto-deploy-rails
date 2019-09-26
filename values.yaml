@@ -88,14 +88,21 @@ worker:
     - quiet
     - /tmp/sidekiq.pid
     - 0
+  resources: {}
+  #  limits:
+  #    cpu: 100m
+  #    memory: 128Mi
+  # requests:
+  #    cpu: 100m
+  #    memory: 128Mi
 
 postgresql:
   enabled: false
-resources:
+resources: {}
 #  limits:
 #    cpu: 100m
 #    memory: 128Mi
-  requests:
+# requests:
 #    cpu: 100m
 #    memory: 128Mi
 
