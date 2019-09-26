@@ -32,11 +32,21 @@ spec:
       {{- end }}
       imagePullSecrets:
 {{ toYaml .Values.image.secrets | indent 10 }}
+      terminationGracePeriodSeconds: {{ .Values.worker.terminationGracePeriodSeconds }}
       containers:
       - name: {{ .Chart.Name }}-worker
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         args: ["{{ .Values.worker.args | default "bundle exec sidekiq" }}"]
+        {{- if .Values.worker.preStopCommand }}
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              {{- range .Values.worker.preStopCommand }}
+              - {{ . }}
+              {{- end }}
+        {{- end }}
         {{- if .Values.worker.sidekiq_alive.enabled }}
         livenessProbe:
           httpGet:
@@ -51,11 +61,6 @@ spec:
             port: {{ .Values.worker.sidekiq_alive.livenessProbe.port }}
           initialDelaySeconds: {{ .Values.worker.sidekiq_alive.readinessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.worker.sidekiq_alive.readinessProbe.timeoutSeconds }}
-        lifecycle:
-          preStop:
-            exec:
-              # SIGTERM triggers a quick exit; gracefully terminate instead
-              command: ["bundle", "exec", "sidekiqctl", "quiet", "/tmp/sidekiq.pid", "0"]
         {{- end }}
         {{- if .Values.application.secretName }}
         envFrom:
@@ -72,6 +77,10 @@ spec:
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
         {{- end }}
+        - name: GITLAB_ENVIRONMENT_NAME
+          value: {{ .Values.gitlab.envName }}
+        - name: GITLAB_ENVIRONMENT_URL
+          value: {{ .Values.gitlab.envURL }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
 {{- end -}}

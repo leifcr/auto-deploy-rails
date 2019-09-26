@@ -62,6 +62,7 @@ worker:
   args: 'bundle exec sidekiq'
   replicaCount: 1
   revisionHistoryLimit: 10
+  terminationGracePeriodSeconds: 20 # Sidekiq jobs are usually small and fast, 20 is enough
   securityContext:
     enabled: true
     fsGroup: 1001
@@ -79,7 +80,14 @@ worker:
       initialDelaySeconds: 30 # App specific, tune after deployment
       timeoutSeconds: 5 # Can be less
       port: 7433
-
+  # SIGTERM triggers a quick exit; gracefully terminate instead
+  preStopCommand:
+    - bundle
+    - exec
+    - sidekiqctl
+    - quiet
+    - /tmp/sidekiq.pid
+    - 0
 
 postgresql:
   enabled: false
