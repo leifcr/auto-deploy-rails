@@ -87,7 +87,7 @@ worker:
     - sidekiqctl
     - quiet
     - /tmp/sidekiq.pid
-    - 0
+    - "0"
   resources: {}
   #  limits:
   #    cpu: 100m
