@@ -39,12 +39,6 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         args: ["{{ .Values.worker.args | default "bundle exec sidekiq" }}"]
-        {{- if .Values.worker.preStopCommand }}
-        lifecycle:
-          preStop:
-            exec:
-              command: '{{ .Values.worker.preStopCommand }}'
-        {{- end }}
         {{- if .Values.worker.sidekiq_alive.enabled }}
         livenessProbe:
           httpGet:
@@ -59,6 +53,10 @@ spec:
             port: {{ .Values.worker.sidekiq_alive.livenessProbe.port }}
           initialDelaySeconds: {{ .Values.worker.sidekiq_alive.readinessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.worker.sidekiq_alive.readinessProbe.timeoutSeconds }}
+        lifecycle:
+          preStop:
+            exec:
+              command: ["bundle", "exec", "sidekiqctl", "quiet", "/tmp/sidekiq.pid", "0"]
         {{- end }}
         {{- if .Values.application.secretName }}
         envFrom:
