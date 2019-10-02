@@ -43,10 +43,7 @@ spec:
         lifecycle:
           preStop:
             exec:
-              command:
-              {{- range .Values.worker.preStopCommand }}
-              - {{ . }}
-              {{- end }}
+              command: '{{ .Values.worker.preStopCommand }}'
         {{- end }}
         {{- if .Values.worker.sidekiq_alive.enabled }}
         livenessProbe:

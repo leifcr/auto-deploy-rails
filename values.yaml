@@ -81,13 +81,7 @@ worker:
       timeoutSeconds: 5 # Can be less
       port: 7433
   # SIGTERM triggers a quick exit; gracefully terminate instead
-  preStopCommand:
-    - bundle
-    - exec
-    - sidekiqctl
-    - quiet
-    - /tmp/sidekiq.pid
-    - "0"
+  preStopCommand: 'bundle exec sidekiqcl sidekiqctl quiet /tmp/sidekiq.pid 0'
   resources: {}
   #  limits:
   #    cpu: 100m
