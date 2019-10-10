@@ -7,7 +7,7 @@ metadata:
     {{ if .Values.gitlab.app }}app.gitlab.com/app: {{ .Values.gitlab.app | quote }}{{ end }}
     {{ if .Values.gitlab.env }}app.gitlab.com/env: {{ .Values.gitlab.env | quote }}{{ end }}
   labels:
-    app: {{ template "appname" . }}
+    app: {{ include "appname" . }}
     part: 'backend-rails'
     track: "{{ .Values.application.track }}"
     tier: "{{ .Values.application.tier }}"
@@ -17,6 +17,12 @@ metadata:
 spec:
   replicas: {{ .Values.service.replicaCount }}
   revisionHistoryLimit: {{ .Values.service.revisionHistoryLimit | default 10 }}
+  selector:
+    app: {{ include "appname" . }}
+    part: 'backend-rails'
+    track: "{{ .Values.application.track }}"
+    tier: "{{ .Values.application.tier }}"
+    release: {{ .Release.Name }}
   template:
     metadata:
       annotations:
@@ -27,7 +33,7 @@ spec:
 {{ toYaml .Values.podAnnotations | indent 8 }}
 {{- end }}
       labels:
-        app: {{ template "appname" . }}
+        app: {{ include "appname" . }}
         part: 'backend-rails'
         track: "{{ .Values.application.track }}"
         tier: "{{ .Values.application.tier }}"

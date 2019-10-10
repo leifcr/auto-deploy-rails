@@ -4,7 +4,8 @@ kind: PodDisruptionBudget
 metadata:
   name: {{ template "fullname" . }}
   labels:
-    app: {{ template "appname" . }}
+    app: {{ include "appname" . }}
+    part: 'backend-rails'
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -17,6 +18,7 @@ spec:
 {{- end }}
   selector:
     matchLabels:
-      app: {{ template "appname" . }}
+      app: {{ include "appname" . }}
+      part: 'backend-rails'
       release: {{ .Release.Name }}
 {{- end }}

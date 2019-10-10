@@ -5,7 +5,7 @@ kind: Deployment
 metadata:
   name: {{ template "trackableappname" . }}-worker
   labels:
-    app: {{ template "appname" . }}-worker
+    app: {{ include "appname" . }}
     part: 'backend-worker'
     track: "{{ .Values.application.track }}"
     tier: "{{ .Values.application.tier }}"
@@ -15,6 +15,12 @@ metadata:
 spec:
   replicas: {{ .Values.worker.replicaCount }}
   revisionHistoryLimit: {{ .Values.worker.revisionHistoryLimit | default 10 }}
+  selector:
+    app: {{ include "appname" . }}
+    part: 'backend-worker'
+    track: "{{ .Values.application.track }}"
+    tier: "{{ .Values.application.tier }}"
+    release: {{ .Release.Name }}
   template:
     metadata:
       annotations:
