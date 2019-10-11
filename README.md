@@ -8,11 +8,17 @@ Delayed job should be a matter of adding the proper commands
 
 Note: Worker has been added initially to gitlabs own chart: See this commit (https://gitlab.com/gitlab-org/charts/auto-deploy-app/commit/a76e282d6cb72b8f52315efc3fd933beb5aa2789)
 
+## v0.3.x release
+
+v0.3.x changes to use apiVersions compatible with kubernetes >= 0.14. All kubernetes clusters with versions below that will not work with v0.3.x
+
+When upgrading from v0.2.x to v0.3.x chart, you might need to purge your deployment if it fails upgrading. Always deploy to testing/staging before production.
+
 ## Requirements
 
 - Helm `2.9.0` and above is required in order support `"helm.sh/hook-delete-policy": before-hook-creation` for migrations
 
-## Note on securityContext
+## securityContext (Important)
 
 This is set to run as user 1001, and group 1001, so ensure that your container has user 1001 and 1001 created. See https://github.com/leifcr/rails5-kubernetes for example
 
