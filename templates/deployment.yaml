@@ -18,11 +18,12 @@ spec:
   replicas: {{ .Values.service.replicaCount }}
   revisionHistoryLimit: {{ .Values.service.revisionHistoryLimit | default 10 }}
   selector:
-    app: {{ include "appname" . }}
-    part: 'backend-rails'
-    track: "{{ .Values.application.track }}"
-    tier: "{{ .Values.application.tier }}"
-    release: {{ .Release.Name }}
+    matchLabels:
+      app: {{ include "appname" . }}
+      part: 'backend-rails'
+      track: "{{ .Values.application.track }}"
+      tier: "{{ .Values.application.tier }}"
+      release: {{ .Release.Name }}
   template:
     metadata:
       annotations:
