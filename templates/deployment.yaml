@@ -115,6 +115,6 @@ spec:
               operator: In
               values:
               - {{ .Values.gitlab.app | quote }}
-            topologyKey: "kubernetes.io/hostname"
+          topologyKey: "kubernetes.io/hostname"
 {{- end }}
 {{- end -}}
