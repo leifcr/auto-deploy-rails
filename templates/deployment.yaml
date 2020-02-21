@@ -25,7 +25,7 @@ spec:
       track: "{{ .Values.application.track }}"
       tier: "{{ .Values.application.tier }}"
       release: {{ .Release.Name }}
-{{- if .Values.podAntiAffinity -}}
+{{- if .Values.podAntiAffinity }}
   affinity:
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
