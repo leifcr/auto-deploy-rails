@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: {{ template "trackableappname" . }}
   annotations:
-    {{ if .Values.gitlab.app }}app.gitlab.com/app: {{ .Values.gitlab.app | quote }}{{ end }}
+    app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
     {{ if .Values.gitlab.env }}app.gitlab.com/env: {{ .Values.gitlab.env | quote }}{{ end }}
   labels:
     app: {{ include "appname" . }}
@@ -14,6 +14,7 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    specificappname: {{ .Values.gitlab.app | quote }}
 spec:
   replicas: {{ .Values.service.replicaCount }}
   revisionHistoryLimit: {{ .Values.service.revisionHistoryLimit | default 10 }}
@@ -24,11 +25,36 @@ spec:
       track: "{{ .Values.application.track }}"
       tier: "{{ .Values.application.tier }}"
       release: {{ .Release.Name }}
+{{- if .Values.podAntiAffinity -}}
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: app
+              operator: In
+              values:
+              - {{ include "appname" . }}
+            - key: part
+              operator: In
+              values:
+              - 'backend-rails'
+            - key: release
+              operator: In
+              values:
+              - {{ .Release.Name }}
+            - key: specificappname
+              operator: In
+              values:
+              - {{ .Values.gitlab.app | quote }}
+            topologyKey: "kubernetes.io/hostname"
+{{- end }}
   template:
     metadata:
       annotations:
         checksum/application-secrets: "{{ .Values.application.secretChecksum }}"
-        {{ if .Values.gitlab.app }}app.gitlab.com/app: {{ .Values.gitlab.app | quote }}{{ end }}
+        app.gitlab.com/app: {{ .Values.gitlab.app | quote }}
         {{ if .Values.gitlab.env }}app.gitlab.com/env: {{ .Values.gitlab.env | quote }}{{ end }}
 {{- if .Values.podAnnotations }}
 {{ toYaml .Values.podAnnotations | indent 8 }}

@@ -8,6 +8,7 @@ image:
   secrets:
     - name: gitlab-registry
 podAnnotations: {}
+podAntiAffinity: true
 application:
   track: stable
   tier: web
@@ -63,6 +64,7 @@ worker:
   replicaCount: 1
   revisionHistoryLimit: 10
   terminationGracePeriodSeconds: 20 # Sidekiq jobs are usually small and fast, 20 is enough
+  podAntiAffinity: true
   securityContext:
     enabled: true
     fsGroup: 1001

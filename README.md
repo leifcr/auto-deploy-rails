@@ -10,6 +10,8 @@ Note: Worker has been added initially to gitlabs own chart: See this commit (htt
 
 ## v0.3.x release
 
+v0.3.10 introduces AntiAffinity for workers and rails main service to limit 1 pod on each node. If you dont want this behaviour, you can disable it in setting podAntiAffinity or worker.podAntiAffinity to `false`
+
 v0.3.x changes to use apiVersions compatible with kubernetes >= 0.14. All kubernetes clusters with versions below that will not work with v0.3.x
 
 When upgrading from v0.2.x to v0.3.x chart, you might need to purge your deployment if it fails upgrading. Always deploy to testing/staging before production.
@@ -87,6 +89,7 @@ Copy [```values.yaml```](https://gitlab.com/leifcr/auto-deploy-rails/blob/master
 | image.pullPolicy                   |             | `Always`                           |
 | image.secrets                      |             | `[name: gitlab-registry]`          |
 | podAnnotations                     | Pod annotations | `{}`                           |
+| podAntiAffinity                    | If set to false, anti-affinity is disabled, allowing multiple rails pods to run on same node | `true` |
 | application.track                  |             | `stable`                           |
 | application.tier                   |             | `web`                              |
 | application.migrateCommand         | If present, this variable will run as a shell command within an application Container as a Helm pre-upgrade Hook. Intended to run migration commands. | `nil` |
@@ -122,6 +125,7 @@ Alternative Names (SANs) | `nil`     |
 | readinessProbe.initialDelaySeconds | # of seconds after the container has started before readiness probes are initiated. | `5`                                |
 | readinessProbe.timeoutSeconds      | # of seconds after which the readiness probe times out. | `3`                                |
 | worker.enabled                     |             | `true` |
+| worker.podAntiAffinity             | If set to false, affinity is disabled for workers, allowing multiple rails workers on each node | `true` |
 | worker.securityContext.enabled     |          | `true` |
 | worker.securityContext.fsGroup     |          | `1001` |
 | worker.securityContext.runAsUser   |          | `1001` |
