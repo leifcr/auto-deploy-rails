@@ -26,31 +26,6 @@ spec:
       track: "{{ .Values.application.track }}"
       tier: "{{ .Values.application.tier }}"
       release: {{ .Release.Name }}
-{{- if .Values.worker.podAntiAffinity }}
-  affinity:
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-      - podAffinityTerm:
-          labelSelector:
-            matchExpressions:
-            - key: app
-              operator: In
-              values:
-              - {{ include "appname" . }}
-            - key: part
-              operator: In
-              values:
-              - 'backend-worker'
-            - key: release
-              operator: In
-              values:
-              - {{ .Release.Name }}
-            - key: specificappname
-              operator: In
-              values:
-              - {{ .Values.gitlab.app | quote }}
-            topologyKey: "kubernetes.io/hostname"
-{{- end }}
   template:
     metadata:
       annotations:
@@ -61,6 +36,7 @@ spec:
         track: "{{ .Values.application.track }}"
         tier: "{{ .Values.application.tier }}"
         release: {{ .Release.Name }}
+        specificappname: {{ .Values.gitlab.app }}
     spec:
       {{- if .Values.worker.securityContext.enabled }}
       securityContext:
@@ -114,5 +90,30 @@ spec:
           value: {{ .Values.gitlab.envURL }}
         resources:
 {{ toYaml .Values.worker.resources | indent 12 }}
+{{- if .Values.worker.podAntiAffinity }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - {{ include "appname" . }}
+                - key: part
+                  operator: In
+                  values:
+                  - 'backend-worker'
+                - key: release
+                  operator: In
+                  values:
+                  - {{ .Release.Name }}
+                - key: specificappname
+                  operator: In
+                  values:
+                  - {{ .Values.gitlab.app | quote }}
+                topologyKey: "kubernetes.io/hostname"
+{{- end }}
 {{- end -}}
 {{- end -}}
