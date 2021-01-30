@@ -1,5 +1,5 @@
 dependencies:
   - name: postgresql
     version: "3.14.0"
-    repository: "https://kubernetes-charts.storage.googleapis.com/"
+    repository: "https://gitlab-org.gitlab.io/cluster-integration/helm-stable-archive"
     condition: postgresql.enabled
